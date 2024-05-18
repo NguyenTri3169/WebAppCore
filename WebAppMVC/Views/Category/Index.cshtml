@@ -1,0 +1,29 @@
+﻿@model List<Category>
+@* @model List<string>  *@
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Danh mục</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.categoryId</td>
+                <td>@item.categoryName</td>
+            </tr>
+        }
+        @* @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@Model[i]</td>
+            </tr>
+        } *@
+
+    </tbody>
+</table>
