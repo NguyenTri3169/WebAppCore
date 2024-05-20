@@ -14,9 +14,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICategory, CategoryImpl>();
-builder.Services.AddTransient<ICongDung, CongDungImpl>();   
+builder.Services.AddTransient<ICongDung, CongDungImpl>();  
+builder.Services.AddTransient<IUser, UserImpl>();   
+//builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
+//(builder.Configuration.GetConnectionString("DocSo")));
 builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
-(builder.Configuration.GetConnectionString("DocSo")));
+(builder.Configuration.GetConnectionString("Store")));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:ValidIssuer"],
+        ValidAudience = builder.Configuration["Jwt:ValidAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]))
+    };
+});
+
 
 var app = builder.Build();
 
