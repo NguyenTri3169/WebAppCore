@@ -14,8 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICategory, CategoryImpl>();
+builder.Services.AddTransient<ICongDung, CongDungImpl>();   
 builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
-(builder.Configuration.GetConnectionString("Store")));
+(builder.Configuration.GetConnectionString("DocSo")));
 
 var app = builder.Build();
 

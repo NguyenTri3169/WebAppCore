@@ -15,5 +15,6 @@ namespace DataAccess.DbContext
 
         }   
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CongDung> CongDungs { get; set; }
     }
 }
