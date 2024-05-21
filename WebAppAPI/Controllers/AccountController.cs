@@ -17,11 +17,18 @@ namespace WebAppAPI.Controllers
     {
         private readonly IConfiguration _configuration;
         private IUnitOfWork _unitOfWork;
+        private List<Account> accounts;
 
         public AccountController(IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             _configuration = configuration;
             _unitOfWork = unitOfWork;
+
+            // Bước 3: Thêm các đối tượng Account vào danh sách
+            accounts = new List<Account>();
+            accounts.Add(new Account { Id = 1, Username = "user1", Password = "password1" });
+            accounts.Add(new Account { Id = 2, Username = "user2", Password = "password2" });
+            accounts.Add(new Account { Id = 3, Username = "user3", Password = "password3" });
         }
 
         [HttpPost("Login")]
@@ -30,11 +37,10 @@ namespace WebAppAPI.Controllers
             var returnData = new ReturnData();
             try
             {
-                // Bước 1:Check tài khoản
-
+                // Bước 1: Check tài khoản
                 if (requestData == null ||
-                    string.IsNullOrEmpty(requestData.UserName)
-                    || string.IsNullOrEmpty(requestData.UserPass))
+                    string.IsNullOrEmpty(requestData.UserName) ||
+                    string.IsNullOrEmpty(requestData.UserPass))
                 {
                     returnData.ReturnCode = (int)CommonLibs.Enum_ReturnCode.DataNotValid;
                     returnData.ReturnMsg = "Dữ liệu đầu vào không hợp lệ";
@@ -44,22 +50,23 @@ namespace WebAppAPI.Controllers
 
                 requestData.UserPass = CommonLibs.Sercurity.EncryptPassword(requestData.UserPass);
 
-                var user = await _unitOfWork._user.Login(requestData);
-                if (user == null || user.UserId <= 0)
+                // Bước 2: Kiểm tra tài khoản trong danh sách
+                var user = accounts.FirstOrDefault(a => a.Username == requestData.UserName && a.Password == requestData.UserPass);
+                if (user == null)
                 {
                     returnData.ReturnCode = (int)CommonLibs.Enum_ReturnCode.LoginInFail;
                     returnData.ReturnMsg = "Username hoặc pass sai";
 
                     return Ok(returnData);
                 }
-                //
-                //2.2 trả về Thông tin Token
+
+                // 2.2 trả về Thông tin Token
 
                 // 2.2.0 tạo claim để lưu dữ liệu của user ( fullname , userid)
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.PrimarySid, user.UserId.ToString())
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.PrimarySid, user.Id.ToString())
                 };
 
                 // 2.2.1 TẠO TOKEN  (tạo claims , secretkey , expired)
@@ -77,7 +84,7 @@ namespace WebAppAPI.Controllers
 
                 var request = new UpdateRefreshTokenExpired_RequestData
                 {
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     //refreshToken = GenerateRefreshToken(),
                     RefreshTokenExpired = DateTime.Now.AddDays(Convert.ToInt32(expriredDateSettingDay))
                 };
@@ -86,7 +93,7 @@ namespace WebAppAPI.Controllers
                 //  2.2.3 TRẢ VỀ TOKEN + refeshtoken + thông tin user
                 var userLoginResponse = new UserLoginReturnData
                 {
-                    userName = user.UserName,
+                    userName = user.Username,
                     token = token,
                     refeshToken = refreshToken,
                     IsAdmin = user.IsAdmin,
@@ -95,12 +102,9 @@ namespace WebAppAPI.Controllers
                 };
 
                 return Ok(userLoginResponse);
-
-
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
@@ -128,7 +132,6 @@ namespace WebAppAPI.Controllers
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
-
     }
 }
 
