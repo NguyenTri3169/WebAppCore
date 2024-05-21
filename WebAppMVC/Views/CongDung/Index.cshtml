@@ -1,0 +1,80 @@
+﻿@model List<CongDung>
+@* @model List<string>  *@
+<table class="table brandTable">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Công Dụng</th>
+            <th scope="col">Mã Cd</th>
+            <th scope="col">Ghi chú</th>
+            <th scope="col">Đối tượng</th>
+            <th scope="col">Version </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.TenCd</td>
+                <td>@item.MaCd</td>
+                <td>@item.GhiChu</td>
+                <td>@item.DoiTuong</td>
+                <td>@item.Version</td>
+            </tr>
+        }
+        @* @for (int i = 0; i < Model.Count; i++)
+        {
+        <tr>
+        <td>@(i + 1)</td>
+        <td>@Model[i]</td>
+        </tr>
+        } *@
+
+    </tbody>
+</table>
+
+@* <script>
+    $('#btnGetCategories').click(() => {
+        $.ajax({
+            // Đảm bảo đường dẫn API chính xác
+            type: 'GET',
+            url: '/api/Category/GetCategories',
+            success: (responses) => {
+                // // Xóa nội dung bảng trước khi thêm hàng mới
+                // $('.brandTable').html('');
+
+                for (var i = 0; i < responses.length; i++) {
+                    const item = responses[i];
+                    const html = '<tr><td>' + item.categoryId + '</td><td>' + item.categoryName + '</td></tr>';
+                    $('.brandTable').append(html);
+                }
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+</script> *@
+@* <script>
+    $(document).ready(function() {
+        $('#btnGetCategories').click(function() {
+            $.ajax({
+                url: '/api/Category/GetCategories',
+                type: 'GET',
+                success: function(responses) {
+                    for (var i = 0; i < responses.length; i++) {
+                        var item = responses[i];
+                        var html = '<tr><td>' + item.CategoryId +
+                            '</td><td>' + item.CategoryName + '</td></tr>';
+                        $('table.table-striped').append(html);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script> *@

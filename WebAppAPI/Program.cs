@@ -15,11 +15,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICategory, CategoryImpl>();
 builder.Services.AddTransient<ICongDung, CongDungImpl>();  
-builder.Services.AddTransient<IUser, UserImpl>();   
-//builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
-//(builder.Configuration.GetConnectionString("DocSo")));
+builder.Services.AddTransient<IUser, UserImpl>();
 builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
-(builder.Configuration.GetConnectionString("Store")));
+(builder.Configuration.GetConnectionString("DocSo")));
+//builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
+//(builder.Configuration.GetConnectionString("Store")));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

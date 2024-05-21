@@ -21,12 +21,13 @@ namespace WebAppAPI.Controllers
         {
             try
             {
-                var categories = await _congDung.GetCongDungs();
-                return Ok(categories);
+                var congDungs = await _congDung.GetCongDungs();
+                return Ok(congDungs);
             }
             catch (Exception ex)
             {
-                throw;
+                // Trả về thông báo lỗi chi tiết hơn
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while processing your request.", details = ex.Message });
             }
 
         }

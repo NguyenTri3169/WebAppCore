@@ -78,11 +78,11 @@ namespace WebAppAPI.Controllers
                 var request = new UpdateRefreshTokenExpired_RequestData
                 {
                     UserId = user.UserId,
-                    refeshtoken = GenerateRefreshToken(),
+                    //refreshToken = GenerateRefreshToken(),
                     RefreshTokenExpired = DateTime.Now.AddDays(Convert.ToInt32(expriredDateSettingDay))
                 };
                 var update = await _unitOfWork._user.UpdateRefreshTokenExpired(request);
-                _unitOfWork.SaveChange();
+                _unitOfWork.SaveChanges();
                 //  2.2.3 TRẢ VỀ TOKEN + refeshtoken + thông tin user
                 var userLoginResponse = new UserLoginReturnData
                 {

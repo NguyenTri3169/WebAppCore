@@ -17,19 +17,56 @@ namespace DataAccess.DAOImpl
         {
             _storeDbContext = storeDbContext;
         }
+        //public async Task<List<CongDung>> GetCongDungs()
+        //{
+        //    List<CongDung> list = null;
+        //    try
+        //    {
+        //        list = await _storeDbContext.CongDungs
+        //            .Select(cd => new CongDung
+        //            {
+        //                Id = cd.Id,
+        //                TenCd = cd.TenCd,
+        //                DoiTuong = cd.DoiTuong
+        //            })
+        //            .ToListAsync();
+
+        //        // Kiểm tra và xử lý giá trị NULL nếu cần
+        //        list.ForEach(cd =>
+        //        {
+        //            cd.TenCd = cd.TenCd ?? string.Empty;
+        //            cd.DoiTuong = cd.DoiTuong ?? string.Empty;
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //    return list ?? new List<CongDung>();
+        //}
+
         public Task<List<CongDung>> GetCongDungs()
         {
+            //List<CongDung> list = null;
             Task<List<CongDung>> list = null;
             try
             {
                 list = _storeDbContext.CongDungs.ToListAsync();
+                // Kiểm tra và xử lý giá trị NULL nếu cần
+                //list.ForEach(cd =>
+                //{
+                //    cd.TenCd = cd.TenCd ?? string.Empty;
+                //    cd.MaCd = cd.MaCd ?? string.Empty;
+                //    cd.GhiChu = cd.GhiChu ?? string.Empty;
+                //    cd.DoiTuong = cd.DoiTuong ?? string.Empty;
+                //    cd.Version = cd.Version ?? 0; // Hoặc giá trị mặc định khác
+                //});
             }
             catch (Exception ex)
             {
-
                 throw;
             }
-            return list;
+            return list;/*?? new List<CongDung>();*/
         }
     }
 }

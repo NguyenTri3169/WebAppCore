@@ -13,12 +13,12 @@ namespace DataAccess.DTO
         [Column("Id")]
         public int Id { get; set; }
         [Column("CongDung")]
-        public string TenCd { get; set; } = null!;
-        public string MaCd { get; set; } = null!;
-        public string  GhiChu { get; set; } = null!;
-        public string  DoiTuong { get; set; } = null!;
+        public string? TenCd { get; set; }
+        public string? MaCd { get; set; }
+        public string?  GhiChu { get; set; }
+        public string?  DoiTuong { get; set; }
         [Column("Version")]
-        public double Version { get; set; }
+        public double? Version { get; set; }
 
     }
 }
