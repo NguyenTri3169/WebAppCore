@@ -39,6 +39,48 @@ namespace CommonLibs
                 throw ex;
             }
         }
+
+        public static async Task<HttpReturnData> SendPostWithToken(string url, string baserUrl, string token, string jsonData)
+        {
+            var returnData = new HttpReturnData();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    //POST Method
+
+                    StringContent queryString = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(baserUrl, queryString);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        returnData.HttpCode = 200;
+                        returnData.HttpContent = await response.Content.ReadAsStringAsync();
+                        return returnData;
+                    }
+                    else
+                    {
+                        returnData.HttpCode = 401;
+                        returnData.HttpContent = "Chưa đăng nhập hoặc không có quyền thực hiện chức năng";
+                        return returnData;
+                    }
+
+
+                }
+
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+
+                returnData.HttpCode = -99;
+                returnData.HttpContent = ex.Message;
+                return returnData;
+            }
+        }
         public static async Task<string> SendGet(string url, string baseUrl)
         {
             try

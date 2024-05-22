@@ -16,6 +16,8 @@ namespace DataAccess.DbContext
         }   
         public DbSet<Category> Categories { get; set; }
         public DbSet<CongDung> CongDungs { get; set; }
-        public DbSet<User> Users { get; set; }    
+        public DbSet<User> Users { get; set; }
+        public DbSet<Function> function { get; set; }
+        public DbSet<UserFunction> userfunction { get; set; }
     }
 }
