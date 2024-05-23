@@ -96,7 +96,7 @@ namespace WebAppAPI.Controllers
                     userName = user.UserName,
                     token = token,
                     refeshToken = refreshToken,
-                    IsAdmin = user.IsAdmin,
+                    //IsAdmin = user.IsAdmin,
                     ReturnCode = 1,
                     ReturnMsg = "Đăng nhập thành công!"
                 };
