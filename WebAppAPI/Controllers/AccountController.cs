@@ -48,7 +48,7 @@ namespace WebAppAPI.Controllers
 
                     return Ok(returnData);
                 }
-
+                //Mã hóa password
                 requestData.UserPass = CommonLibs.Sercurity.EncryptPassword(requestData.UserPass);
 
                 var user = await _unitOfWork._user.Login(requestData);
@@ -91,6 +91,7 @@ namespace WebAppAPI.Controllers
                 var update = await _unitOfWork._user.UpdateRefreshTokenExpired(request);
                 _unitOfWork.SaveChanges();
                 //  2.2.3 TRẢ VỀ TOKEN + refeshtoken + thông tin user
+                // lấy các api theo userid 
                 var userLoginResponse = new UserLoginReturnData
                 {
                     userName = user.UserName,

@@ -1,6 +1,7 @@
 using DataAccess.DAO;
 using DataAccess.DAOImpl;
 using DataAccess.DbContext;
+using DataAccess.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICategory, CategoryImpl>();
 builder.Services.AddTransient<ICongDung, CongDungImpl>();  
 builder.Services.AddTransient<IUser, UserImpl>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
 //(builder.Configuration.GetConnectionString("DocSo")));
 builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer
