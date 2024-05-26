@@ -8,7 +8,7 @@ namespace WebAppMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return (IActionResult)View();
         }
         public async Task<JsonResult> Login(LoginRequestData requestData)
         {
@@ -16,7 +16,7 @@ namespace WebAppMVC.Controllers
             try
             {
                 var url = System.Configuration.ConfigurationManager.AppSettings["API_URL"] ?? "";
-                var baseUrl = "/api/Account/Login"; //-> http://localhost:5168//api/Account/Login"'
+                var baseUrl = "/api/Account/Login"; //-> http://localhost:15761/api/Account/Login"'
                 var jsonData = JsonConvert.SerializeObject(requestData);
 
                 // gọi api netcore 
@@ -35,7 +35,7 @@ namespace WebAppMVC.Controllers
                 throw;
             }
 
-            return Json(returnData, JsonRequestBehavior.AllowGet);
+            return Json(returnData, System.Web.Mvc.JsonRequestBehavior.AllowGet);
         }
     }
 }

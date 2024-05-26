@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="card-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+
+
+    <div class="input-group mb-3">
+        <input type="email" class="form-control" id="txtEmail" placeholder="Email">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" class="form-control" id="txtPassWord" placeholder="Password">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                    Remember Me
+                </label>
+            </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-4">
+            <button type="button" id="btnLogin" class="btn btn-primary btn-block">Sign In</button>
+        </div>
+        <!-- /.col -->
+    </div>
+
+
+    <!--<div class="social-auth-links text-center mt-2 mb-3">
+        <a href="#" class="btn btn-block btn-primary">
+            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+    </div>-->
+    <!-- /.social-auth-links -->
+    <!--<p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+    </p>
+    <p class="mb-0">
+        <a href="register.html" class="text-center">Register a new membership</a>
+    </p-->
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $("#btnLogin").click(function () {
+            debugger;
+
+            var email = $("#txtEmail").val();
+            var password = $("#txtPassWord").val();
+            var data = {
+
+                UserName: email,
+                UserPass: password
+
+            };
+
+            $.ajax({
+                url: '/Account/Login',
+                type: 'POST',
+                dataType: 'json',
+                data: data
+            }).done(function (ketqua) {
+                alert(ketqua.ReturnMsg);
+                var token = ketqua.token;
+                // lưu token vào cookie
+                setCookie("EshopCookie", token, 1);
+
+            });
+        });
+
+        $("#btnSubmitUpate").click(function () {
+            debugger;
+
+            var email = $("#txtEmail").val();
+            var password = $("#txtPassWord").val();
+            var account = {
+                email: email,
+                password: password
+            };
+
+            $.ajax({
+                url: '/Home/EditAccount',
+                type: 'POST',
+                dataType: 'html',
+                data: account
+            }).done(function (ketqua) {
+                alert(ketqua.Description);
+                LoadAccountPartialView();
+            });
+        });
+
+    });
+
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function LoadAccountPartialView() {
+
+        $.ajax({
+            url: '/Home/ListDataPartialView',
+            type: 'POST',
+            dataType: 'html',
+            data: {}
+        }).done(function (result) {
+            $("#noidung").html("");
+            $("#noidung").html(result);
+        });
+    }
+
+</script>
+
+

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC;
 using WebAppMVC.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,8 +21,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapControllerRoute(
-    name: "Category",
-    pattern: "{controller=Category}/{action=Index}/{id?}");
+    name: "Account",
+    pattern: "{controller=Account}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
