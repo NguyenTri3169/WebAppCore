@@ -10,7 +10,7 @@ namespace CommonLibs
 {
     public static class HttpHelpers
     {
-        public static async Task<string> SendPost(string url, string baseUrl, string jsonData)
+        public static async Task<string> SendPost(string url, string baserUrl, string jsonData)
         {
             try
             {
@@ -20,8 +20,9 @@ namespace CommonLibs
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //POST Method
-                    StringContent queryString = new StringContent(jsonData);
-                    var response = await client.PostAsync(baseUrl, queryString);
+
+                    StringContent queryString = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(baserUrl, queryString);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsStringAsync();
@@ -30,13 +31,15 @@ namespace CommonLibs
                     {
                         Console.WriteLine("Internal server Error");
                     }
+
                     return string.Empty;
+
                 }
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw;
             }
         }
 
@@ -67,8 +70,6 @@ namespace CommonLibs
                         returnData.HttpContent = "Chưa đăng nhập hoặc không có quyền thực hiện chức năng";
                         return returnData;
                     }
-
-
                 }
 
                 return returnData;
@@ -81,7 +82,7 @@ namespace CommonLibs
                 return returnData;
             }
         }
-        public static async Task<string> SendGet(string url, string baseUrl)
+        public static async Task<string> SendGet(string url, string baserUrl)
         {
             try
             {
@@ -91,7 +92,8 @@ namespace CommonLibs
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //GET Method
-                    var response = await client.GetAsync(baseUrl);
+
+                    var response = await client.GetAsync(baserUrl);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsStringAsync();
@@ -100,13 +102,15 @@ namespace CommonLibs
                     {
                         Console.WriteLine("Internal server Error");
                     }
+
                     return string.Empty;
+
                 }
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw;
             }
         }
     }
