@@ -14,12 +14,16 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseDeveloperExceptionPage();
+    //app.UseBrowserLink();
 }
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseWebSockets();
 
 app.UseAuthorization();
+//app.MapDefaultControllerRoute();
 app.MapControllerRoute(
     name: "Account",
     pattern: "{controller=Account}/{action=Index}/{id?}");
