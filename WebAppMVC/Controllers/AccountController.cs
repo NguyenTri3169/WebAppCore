@@ -17,7 +17,7 @@ namespace WebAppMVC.Controllers
         {
             return View();
         }
-
+        
         public async Task<JsonResult> Login(LoginRequestData requestData)
         {
             var returnData = new UserLoginReturnData();
