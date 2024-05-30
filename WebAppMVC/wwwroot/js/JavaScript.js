@@ -22,7 +22,7 @@
         alert(ketqua.returnMsg);
         var token = ketqua.token;
         // lưu token vào cookie
-        setCookie("EshopCookie", token, 1);
+        setCookie("StoreCookie", token, 1);
     });
 });
 
